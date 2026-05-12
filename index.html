@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fraud Risk Intelligence — A Practitioner's Knowledge Repository</title>
+<style>
+  :root {
+    --ink:        #1A1A1A;
+    --ink-mid:    #3D3D3A;
+    --ink-muted:  #6B6B67;
+    --ink-faint:  #9A9A95;
+    --stone-50:   #F5F4F0;
+    --stone-100:  #ECEAE4;
+    --stone-200:  #D8D5CC;
+    --stone-300:  #B8B5AB;
+    --slate:      #2C3E50;
+    --slate-light:#EBF0F5;
+    --accent:     #2C6E8A;
+    --accent-light:#E6F2F7;
+    --accent-rule: #A8CCDA;
+    --warm:       #7A5C2E;
+    --warm-light: #F5EFE4;
+    --success:    #2D6A4F;
+    --success-bg: #EBF5F0;
+    --border:     rgba(0,0,0,0.07);
+    --border-mid: rgba(0,0,0,0.12);
+    --radius:     6px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: system-ui, -apple-system, sans-serif; background: var(--stone-50); color: var(--ink); font-size: 15px; line-height: 1.65; }
+
+  nav { background: var(--slate); padding: 0 48px; display: flex; align-items: center; justify-content: space-between; height: 52px; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .nav-brand { color: #fff; font-size: 13px; font-weight: 400; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; }
+  .nav-brand em { color: var(--accent-rule); font-style: normal; font-weight: 700; }
+  .nav-links { display: flex; gap: 28px; }
+  .nav-links a { color: rgba(255,255,255,0.55); text-decoration: none; font-size: 12px; letter-spacing: 0.04em; transition: color 0.15s; }
+  .nav-links a:hover { color: rgba(255,255,255,0.9); }
+
+  .hero { background: var(--slate); padding: 64px 48px 56px; border-bottom: 3px solid var(--accent); }
+  .hero-inner { max-width: 860px; margin: 0 auto; }
+  .hero-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent-rule); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+  .hero-eyebrow::before { content: ''; display: block; width: 24px; height: 1px; background: var(--accent-rule); }
+  .hero h1 { font-family: Georgia, serif; font-size: clamp(26px, 4vw, 40px); font-weight: 700; line-height: 1.15; color: #fff; letter-spacing: -0.02em; margin-bottom: 18px; }
+  .hero h1 em { color: var(--accent-rule); font-style: normal; }
+  .hero p { color: rgba(255,255,255,0.62); font-size: 16px; line-height: 1.7; max-width: 580px; margin-bottom: 36px; }
+  .hero-stats { display: flex; gap: 0; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 28px; }
+  .hero-stat { display: flex; flex-direction: column; gap: 3px; padding-right: 32px; margin-right: 32px; border-right: 1px solid rgba(255,255,255,0.1); }
+  .hero-stat:last-child { border-right: none; }
+  .hero-stat strong { font-size: 24px; font-weight: 700; color: #fff; font-family: Georgia, serif; }
+  .hero-stat span { font-size: 10px; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.1em; }
+
+  main { max-width: 1040px; margin: 0 auto; padding: 52px 24px 80px; }
+
+  .section-label { font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: var(--stone-200); }
+
+  .filter-bar { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 36px; }
+  .filter-btn { padding: 5px 14px; border: 1px solid var(--stone-200); background: #fff; border-radius: 3px; font-size: 12px; color: var(--ink-muted); cursor: pointer; transition: all 0.15s; font-family: inherit; letter-spacing: 0.02em; }
+  .filter-btn:hover { border-color: var(--accent-rule); color: var(--accent); }
+  .filter-btn.active { background: var(--slate); color: #fff; border-color: var(--slate); }
+
+  .series-track { background: #fff; border: 1px solid var(--border-mid); border-radius: var(--radius); margin-bottom: 32px; overflow: hidden; }
+  .series-header { padding: 24px 28px 20px; border-bottom: 1px solid var(--stone-100); display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+  .series-header-text h2 { font-family: Georgia, serif; font-size: 17px; font-weight: 700; color: var(--slate); margin-bottom: 4px; }
+  .series-header-text p { font-size: 13px; color: var(--ink-muted); line-height: 1.55; }
+  .series-badge { flex-shrink: 0; background: var(--success-bg); color: var(--success); font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 10px; border-radius: 3px; }
+
+  .series-articles { display: flex; flex-direction: column; }
+  .article-row { display: flex; align-items: flex-start; gap: 16px; padding: 18px 28px; border-top: 1px solid var(--stone-100); text-decoration: none; color: inherit; transition: background 0.1s; }
+  .article-row:hover:not(.disabled) { background: var(--stone-50); }
+  .article-row.disabled { opacity: 0.5; pointer-events: none; }
+
+  .article-num { flex-shrink: 0; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; margin-top: 2px; }
+  .num-live    { background: var(--success-bg); color: var(--success); }
+  .num-soon    { background: var(--warm-light); color: var(--warm); border: 1.5px dashed var(--warm); }
+
+  .article-body { flex: 1; min-width: 0; }
+  .article-title { font-size: 14px; font-weight: 700; color: var(--slate); margin-bottom: 4px; line-height: 1.35; }
+  .article-desc { font-size: 13px; color: var(--ink-muted); line-height: 1.55; margin-bottom: 8px; }
+  .article-tags { display: flex; gap: 5px; flex-wrap: wrap; }
+  .tag { font-size: 10px; padding: 2px 7px; border-radius: 3px; font-weight: 600; letter-spacing: 0.03em; }
+  .tag-foundational { background: var(--success-bg);   color: var(--success); }
+  .tag-intermediate  { background: var(--accent-light); color: var(--accent); }
+  .tag-advanced      { background: var(--warm-light);   color: var(--warm); }
+  .tag-strategic     { background: var(--slate-light);  color: var(--slate); }
+  .tag-topic   { background: var(--stone-100); color: var(--ink-muted); }
+  .tag-live    { background: var(--success-bg); color: var(--success); }
+  .tag-coming  { background: var(--warm-light);  color: var(--warm); }
+  .article-action { flex-shrink: 0; font-size: 12px; color: var(--accent); font-weight: 600; margin-top: 4px; white-space: nowrap; }
+  .article-action.dim { color: var(--stone-300); }
+
+  .standalone-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; margin-bottom: 48px; }
+  .standalone-card { background: #fff; border: 1px solid var(--border-mid); border-radius: var(--radius); padding: 24px; text-decoration: none; color: inherit; display: flex; flex-direction: column; transition: border-color 0.15s; }
+  .standalone-card:hover { border-color: var(--accent-rule); }
+  .card-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+  .card-title { font-family: Georgia, serif; font-size: 17px; font-weight: 700; color: var(--slate); margin-bottom: 8px; line-height: 1.3; }
+  .card-desc { font-size: 13px; color: var(--ink-muted); line-height: 1.6; flex: 1; }
+  .card-footer { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--stone-100); display: flex; justify-content: space-between; align-items: center; }
+  .card-link { font-size: 13px; color: var(--accent); font-weight: 600; }
+  .card-meta { font-size: 11px; color: var(--ink-faint); }
+
+  .paths-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-bottom: 48px; }
+  .path-card { background: #fff; border: 1px solid var(--border-mid); border-radius: var(--radius); padding: 18px 20px; text-decoration: none; display: block; transition: border-color 0.15s; }
+  .path-card:hover { border-color: var(--accent-rule); }
+  .path-audience { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+  .path-title { font-size: 14px; font-weight: 700; color: var(--slate); margin-bottom: 6px; }
+  .path-sequence { font-size: 12px; color: var(--ink-faint); line-height: 1.55; }
+
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; background: #fff; border: 1px solid var(--border-mid); border-radius: var(--radius); padding: 28px 32px; margin-bottom: 48px; }
+  .about-grid h3 { font-family: Georgia, serif; font-size: 16px; font-weight: 700; color: var(--slate); margin-bottom: 10px; }
+  .about-grid p { font-size: 13px; color: var(--ink-muted); line-height: 1.7; }
+  .contact-links { display: flex; flex-direction: column; gap: 10px; margin-top: 16px; }
+  .contact-link { display: flex; align-items: center; gap: 10px; text-decoration: none; font-size: 13px; color: var(--accent); font-weight: 500; }
+  .contact-link:hover { text-decoration: underline; }
+  .contact-icon { width: 28px; height: 28px; background: var(--accent-light); border-radius: var(--radius); display: flex; align-items: center; justify-content: center; font-size: 12px; color: var(--accent); font-weight: 700; flex-shrink: 0; }
+
+  footer { background: var(--ink); color: rgba(255,255,255,0.38); padding: 24px 48px; font-size: 11px; letter-spacing: 0.03em; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  footer a { color: rgba(255,255,255,0.38); text-decoration: none; }
+  footer a:hover { color: rgba(255,255,255,0.8); }
+
+  @media (max-width: 600px) {
+    nav { padding: 0 16px; } .nav-links { display: none; }
+    .hero { padding: 40px 16px 36px; } main { padding: 32px 16px 60px; }
+    .about-grid { grid-template-columns: 1fr; } footer { padding: 20px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="index.html">Fraud Risk <em>Intelligence</em></a>
+  <div class="nav-links">
+    <a href="#series">Series</a>
+    <a href="#standalone">Deep-dives</a>
+    <a href="#paths">Reading paths</a>
+    <a href="#about">About</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Practitioner Knowledge Repository</div>
+    <h1>Fraud Risk:<br><em>A Practitioner's</em> Perspective</h1>
+    <p>In-depth analysis of fraud prevention strategy, typology, product risk, and organizational design — written for senior practitioners, compliance leaders, and institutions building durable fraud defenses.</p>
+    <div class="hero-stats">
+      <div class="hero-stat"><strong>6</strong><span>Articles published &amp; planned</span></div>
+      <div class="hero-stat"><strong>4</strong><span>Topic domains</span></div>
+      <div class="hero-stat"><strong>2</strong><span>Standalone deep-dives</span></div>
+    </div>
+  </div>
+</div>
+
+<main>
+
+  <div id="series" style="margin-bottom:14px;">
+    <div class="section-label">Core series — The Fraud Risk Practitioner's Handbook</div>
+  </div>
+
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="filterAll(this)">All</button>
+    <button class="filter-btn" onclick="filterTag('foundational',this)">Foundational</button>
+    <button class="filter-btn" onclick="filterTag('intermediate',this)">Intermediate</button>
+    <button class="filter-btn" onclick="filterTag('advanced',this)">Advanced</button>
+    <button class="filter-btn" onclick="filterTag('strategic',this)">Strategic</button>
+    <button class="filter-btn" onclick="filterTag('typology',this)">Typology</button>
+    <button class="filter-btn" onclick="filterTag('governance',this)">Governance</button>
+    <button class="filter-btn" onclick="filterTag('technology',this)">Technology</button>
+  </div>
+
+  <div class="series-track">
+    <div class="series-header">
+      <div class="series-header-text">
+        <h2>The Fraud Risk Practitioner's Handbook</h2>
+        <p>A five-part series building from typology fundamentals through to strategic operating model design and continuous improvement.</p>
+      </div>
+      <div class="series-badge">5-part series</div>
+    </div>
+    <div class="series-articles">
+
+      <a class="article-row" href="./articles/fraud-typology.html" data-tags="foundational typology">
+        <div class="article-num num-live">1</div>
+        <div class="article-body">
+          <div class="article-title">Know Your Enemy: A Practitioner's Guide to Fraud Typologies</div>
+          <div class="article-desc">First-party vs third-party fraud, synthetic identity, mule networks, bust-out schemes, account takeover, and authorized push payment scams — the threat landscape every practitioner must understand before designing any defense.</div>
+          <div class="article-tags">
+            <span class="tag tag-foundational">Foundational</span>
+            <span class="tag tag-topic">Typology</span><span class="tag tag-topic">First-party</span><span class="tag tag-topic">Third-party</span>
+            <span class="tag tag-live">✓ Published</span>
+          </div>
+        </div>
+        <div class="article-action">Read →</div>
+      </a>
+
+      <a class="article-row" href="./articles/cross-functional.html" data-tags="advanced governance">
+        <div class="article-num num-live">2</div>
+        <div class="article-body">
+          <div class="article-title">The Fraud Function: Operating Within the Business</div>
+          <div class="article-desc">How fraud, product, marketing, credit risk, and AML must interact — and what happens when they don't. Covers the competing institutional logics, the four recurring failure modes, and the governance architecture that prevents them.</div>
+          <div class="article-tags">
+            <span class="tag tag-advanced">Advanced</span>
+            <span class="tag tag-topic">Governance</span><span class="tag tag-topic">Cross-functional</span><span class="tag tag-topic">RACI</span>
+            <span class="tag tag-live">✓ Published</span>
+          </div>
+        </div>
+        <div class="article-action">Read →</div>
+      </a>
+
+      <a class="article-row" href="./articles/product-risk.html" data-tags="intermediate typology">
+        <div class="article-num num-live">3</div>
+        <div class="article-body">
+          <div class="article-title">Product Risk Profiles: Tailoring Defense to the Battleground</div>
+          <div class="article-desc">Consumer loans, deposit accounts, and cards each carry distinct fraud profiles shaped by velocity, liquidity, and reversibility. Maps product-specific key risk indicators and the control designs best suited to each.</div>
+          <div class="article-tags">
+            <span class="tag tag-intermediate">Intermediate</span>
+            <span class="tag tag-topic">Product risk</span><span class="tag tag-topic">Deposits</span><span class="tag tag-topic">Consumer loans</span>
+            <span class="tag tag-live">✓ Published</span>
+          </div>
+        </div>
+        <div class="article-action">Read →</div>
+      </a>
+
+      <a class="article-row disabled" href="#" data-tags="intermediate technology">
+        <div class="article-num num-soon">4</div>
+        <div class="article-body">
+          <div class="article-title">The Technology Stack: Models, Decisioning &amp; the Vendor Landscape</div>
+          <div class="article-desc">A practitioner's guide to the tools that power fraud defense — ML models, rule engines, real-time decisioning, identity verification vendors, device intelligence, and consortium data.</div>
+          <div class="article-tags">
+            <span class="tag tag-intermediate">Intermediate</span>
+            <span class="tag tag-topic">Technology</span><span class="tag tag-topic">Models</span><span class="tag tag-topic">Vendors</span>
+            <span class="tag tag-coming">Coming soon</span>
+          </div>
+        </div>
+        <div class="article-action dim">Soon</div>
+      </a>
+
+      <a class="article-row" href="./articles/building-defenses.html" data-tags="strategic governance">
+        <div class="article-num num-live">5</div>
+        <div class="article-body">
+          <div class="article-title">Building the Fraud Defense: From Zero to Continuous Enhancement</div>
+          <div class="article-desc">The full maturity arc — from greenfield function design to transformation of a legacy setup. Covers operating model, vendor selection, model governance, KPI design, and the disciplines that separate static programs from adaptive ones.</div>
+          <div class="article-tags">
+            <span class="tag tag-strategic">Strategic</span>
+            <span class="tag tag-topic">Governance</span><span class="tag tag-topic">Operating model</span><span class="tag tag-topic">Maturity</span>
+            <span class="tag tag-live">✓ Published</span>
+          </div>
+        </div>
+        <div class="article-action">Read →</div>
+      </a>
+
+    </div>
+  </div>
+
+  <div id="standalone" style="margin-bottom:14px; margin-top:8px;">
+    <div class="section-label">Standalone deep-dives</div>
+  </div>
+
+  <div class="standalone-grid">
+    <a class="standalone-card" href="./articles/stopping-fraud.html" data-tags="intermediate typology">
+      <div class="card-eyebrow">Upstream detection</div>
+      <div class="card-title">Stopping Fraud Before It Starts</div>
+      <div class="card-desc">Why upstream detection is a competitive necessity, not just a compliance posture. Consumer loans and deposits as the highest-velocity fraud products. The precision-first signal detection framework and the false positive imperative.</div>
+      <div class="article-tags" style="margin-top:12px;">
+        <span class="tag tag-intermediate">Intermediate</span>
+        <span class="tag tag-topic">Upstream</span><span class="tag tag-topic">Signal detection</span><span class="tag tag-topic">Deposits</span>
+      </div>
+      <div class="card-footer">
+        <span class="card-link">Read article →</span>
+        <span class="card-meta">~3,200 words</span>
+      </div>
+    </a>
+
+    <a class="standalone-card" href="./articles/deepfake-frontier.html" data-tags="advanced technology">
+      <div class="card-eyebrow">Emerging threats</div>
+      <div class="card-title">The Deepfake Frontier</div>
+      <div class="card-desc">How generative AI is dismantling biometric liveness, document authenticity, and voice authentication — and why the governance cadence for fraud detection must change fundamentally in response.</div>
+      <div class="article-tags" style="margin-top:12px;">
+        <span class="tag tag-advanced">Advanced</span>
+        <span class="tag tag-topic">AI threats</span><span class="tag tag-topic">Deepfakes</span><span class="tag tag-topic">Technology</span>
+      </div>
+      <div class="card-footer">
+        <span class="card-link">Read article →</span>
+        <span class="card-meta">~1,800 words</span>
+      </div>
+    </a>
+  </div>
+
+  <div id="paths" style="margin-bottom:14px;">
+    <div class="section-label">Suggested reading paths</div>
+  </div>
+  <div class="paths-grid">
+    <a class="path-card" href="./articles/fraud-typology.html">
+      <div class="path-audience">New to fraud risk</div>
+      <div class="path-title">Start with the foundations</div>
+      <div class="path-sequence">Article 1 (typologies) → Article 3 (product risk) → Stopping Fraud Before It Starts</div>
+    </a>
+    <a class="path-card" href="./articles/cross-functional.html">
+      <div class="path-audience">Leaders &amp; managers</div>
+      <div class="path-title">Governance &amp; operating model</div>
+      <div class="path-sequence">Article 2 (fraud function) → Article 5 (building defenses) → then the full series</div>
+    </a>
+    <a class="path-card" href="./articles/stopping-fraud.html">
+      <div class="path-audience">Risk practitioners</div>
+      <div class="path-title">Detection &amp; defense design</div>
+      <div class="path-sequence">Stopping Fraud → Article 3 (product risk) → Deepfake Frontier</div>
+    </a>
+    <a class="path-card" href="./articles/deepfake-frontier.html">
+      <div class="path-audience">Technologists</div>
+      <div class="path-title">AI &amp; emerging threats</div>
+      <div class="path-sequence">Deepfake Frontier → Article 4 (tech stack, coming) → Article 5</div>
+    </a>
+  </div>
+
+  <div id="about" style="margin-bottom:14px;">
+    <div class="section-label">About this repository</div>
+  </div>
+  <div class="about-grid">
+    <div>
+      <h3>About the author</h3>
+      <p>Fraud risk practitioner with experience across consumer banking products — deposits, consumer lending, and cards. This repository collects original analysis on fraud prevention strategy, typology, and organizational design.</p>
+      <p style="margin-top:12px;">Writing is practitioner-facing: grounded in how fraud functions actually operate, not how they appear in regulatory guidance.</p>
+    </div>
+    <div>
+      <h3>Connect</h3>
+      <p>These articles are living documents. If you have a perspective on methodology, a case study to share, or a topic you'd like to see covered — reach out.</p>
+      <div class="contact-links">
+        <a class="contact-link" href="https://linkedin.com/in/YOUR-PROFILE">
+          <span class="contact-icon">in</span>LinkedIn — connect or comment
+        </a>
+        <a class="contact-link" href="https://github.com/YOUR-USERNAME">
+          <span class="contact-icon">gh</span>GitHub — view source &amp; open issues
+        </a>
+        <a class="contact-link" href="mailto:YOUR@EMAIL.COM">
+          <span class="contact-icon">@</span>Email — publication or collaboration
+        </a>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <span>Fraud Risk Intelligence — Practitioner Knowledge Repository</span>
+  <div>
+    <a href="https://github.com/YOUR-USERNAME">GitHub</a> &nbsp;·&nbsp;
+    <a href="https://linkedin.com/in/YOUR-PROFILE">LinkedIn</a>
+  </div>
+</footer>
+
+<script>
+function filterAll(btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.article-row, .standalone-card').forEach(el => el.style.display = '');
+}
+function filterTag(tag, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.article-row, .standalone-card').forEach(el => {
+    el.style.display = (el.dataset.tags || '').split(' ').includes(tag) ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>
