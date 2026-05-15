@@ -3,7 +3,7 @@
 
 > In-depth analysis on fraud prevention strategy, typology, product risk, and organizational design — written for senior practitioners, compliance leaders, and financial institutions building durable fraud defenses.
 
-**Live site:** [your-username.github.io](https://skvlolla.github.io)
+**Live site:** https://skvlolla.github.io
 
 ---
 
@@ -19,14 +19,14 @@ A structured four-part series building from foundational typology knowledge thro
 | 2 | [The Fraud Function: Operating Within the Business](./articles/cross-functional.html) | Advanced | ✅ Published |
 | 3 | [Product Risk Profiles: Tailoring Defense to the Battleground](./articles/product-risk.html) | Intermediate | ✅ Published |
 | 4 | The Technology Stack: Models, Decisioning & the Vendor Landscape | Intermediate | 🔜 Coming soon |
-| 5 | [Building the Fraud Defense: From Zero to Continuous Enhancement](articles/building-defenses.html) | Strategic | 🔜 Coming soon |
+| 5 | [Building the Fraud Defense: From Zero to Continuous Enhancement](./articles/building-defenses.html) | Strategic | 🔜 Coming soon |
 
 ### Standalone Deep-Dives
 
 | Title | Focus | Level |
 |-------|-------|-------|
-| [Stopping Fraud Before It Starts](articles/stopping-fraud.html) | Upstream detection, consumer loans, deposits, signal precision | Intermediate |
-| [The Deepfake Frontier](articles/deepfake-frontier.html) | Generative AI threats, liveness detection, evolving defenses | Advanced |
+| [Stopping Fraud Before It Starts](./articles/stopping-fraud.html) | Upstream detection, consumer loans, deposits, signal precision | Intermediate |
+| [The Deepfake Frontier](./articles/deepfake-frontier.html) | Generative AI threats, liveness detection, evolving defenses | Advanced |
 
 ---
 
