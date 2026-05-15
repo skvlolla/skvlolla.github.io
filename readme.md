@@ -19,7 +19,7 @@ A structured four-part series building from foundational typology knowledge thro
 | 2 | [The Fraud Function: Operating Within the Business](./articles/cross-functional.html) | Advanced | ✅ Published |
 | 3 | [Product Risk Profiles: Tailoring Defense to the Battleground](./articles/product-risk.html) | Intermediate | ✅ Published |
 | 4 | The Technology Stack: Models, Decisioning & the Vendor Landscape | Intermediate | 🔜 Coming soon |
-| 5 | [Building the Fraud Defense: From Zero to Continuous Enhancement](./articles/building-defenses.html) | Strategic | 🔜 Coming soon |
+| 5 | [Building the Fraud Defense: From Zero to Continuous Enhancement] | Strategic | 🔜 Coming soon |
 
 ### Standalone Deep-Dives
 
@@ -69,7 +69,7 @@ A structured four-part series building from foundational typology knowledge thro
 
 ## Connect
 
-- **LinkedIn:** [linkedin.com/in/YOUR-PROFILE](https://linkedin.com/in/sai-krishna-v-lolla-bba01b13) — for discussion and commentary
+- **LinkedIn:** https://linkedin.com/in/sai-krishna-v-lolla-bba01b13 — for discussion and commentary
 - **Email:** skvlolla@gmail.com — for publication inquiries or collaboration
 
 ---
