@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ARTICLE_TITLE — Fraud Risk Intelligence</title>
+<style>
+  /* ── DESIGN SYSTEM: Slate & Stone — sober, editorial ── */
+  :root {
+    --ink:        #1A1A1A;
+    --ink-mid:    #3D3D3A;
+    --ink-muted:  #6B6B67;
+    --ink-faint:  #9A9A95;
+    --stone-50:   #F5F4F0;
+    --stone-100:  #ECEAE4;
+    --stone-200:  #D8D5CC;
+    --stone-300:  #B8B5AB;
+    --slate:      #2C3E50;
+    --slate-mid:  #3D5166;
+    --slate-light:#EBF0F5;
+    --slate-rule: #C5D3DF;
+    --accent:     #2C6E8A;
+    --accent-light:#E6F2F7;
+    --accent-rule: #A8CCDa;
+    --warm:       #7A5C2E;
+    --warm-light: #F5EFE4;
+    --success:    #2D6A4F;
+    --success-bg: #EBF5F0;
+    --border:     rgba(0,0,0,0.07);
+    --border-mid: rgba(0,0,0,0.12);
+    --radius:     6px;
+    --radius-sm:  4px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: "Georgia", "Times New Roman", serif;
+    background: var(--stone-50);
+    color: var(--ink);
+    font-size: 16px;
+    line-height: 1.75;
+  }
+
+  /* ── NAV ── */
+  nav {
+    background: var(--slate);
+    padding: 0 48px;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 52px;
+    position: sticky; top: 0; z-index: 100;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .nav-brand {
+    color: #fff; font-size: 13px; font-weight: 400;
+    letter-spacing: 0.06em; text-transform: uppercase;
+    text-decoration: none; font-family: system-ui, sans-serif;
+  }
+  .nav-brand em { color: var(--accent-rule); font-style: normal; font-weight: 600; }
+  .nav-back {
+    color: rgba(255,255,255,0.55); font-size: 12px;
+    text-decoration: none; font-family: system-ui, sans-serif;
+    letter-spacing: 0.04em; display: flex; align-items: center; gap: 6px;
+    transition: color 0.15s;
+  }
+  .nav-back:hover { color: rgba(255,255,255,0.9); }
+
+  /* ── ARTICLE HEADER ── */
+  .article-header {
+    background: var(--slate);
+    padding: 56px 48px 48px;
+    border-bottom: 3px solid var(--accent);
+  }
+  .header-inner { max-width: 780px; margin: 0 auto; }
+
+  .header-series {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: system-ui, sans-serif;
+    font-size: 10px; font-weight: 700; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--accent-rule);
+    margin-bottom: 20px;
+  }
+  .header-series::before {
+    content: ''; display: block;
+    width: 20px; height: 1px; background: var(--accent-rule); opacity: 0.6;
+  }
+
+  .article-header h1 {
+    font-family: Georgia, serif;
+    font-size: clamp(24px, 3.5vw, 36px);
+    font-weight: 700; line-height: 1.2;
+    color: #fff; letter-spacing: -0.01em;
+    margin-bottom: 18px;
+  }
+
+  .article-header .deck {
+    font-family: system-ui, sans-serif;
+    font-size: 15px; line-height: 1.65;
+    color: rgba(255,255,255,0.62);
+    max-width: 640px; margin-bottom: 32px;
+    font-style: italic;
+  }
+
+  .header-meta {
+    display: flex; gap: 0;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 24px;
+    font-family: system-ui, sans-serif;
+  }
+  .meta-item {
+    display: flex; flex-direction: column; gap: 3px;
+    padding-right: 28px; margin-right: 28px;
+    border-right: 1px solid rgba(255,255,255,0.1);
+  }
+  .meta-item:last-child { border-right: none; padding-right: 0; margin-right: 0; }
+  .meta-label { font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.35); }
+  .meta-value { font-size: 12px; color: rgba(255,255,255,0.72); font-weight: 500; }
+
+  /* ── LAYOUT ── */
+  .page-layout {
+    max-width: 1080px; margin: 0 auto;
+    padding: 52px 24px 80px;
+    display: grid;
+    grid-template-columns: 1fr 220px;
+    gap: 56px;
+    align-items: start;
+  }
+
+  /* ── PROSE ── */
+  .prose { min-width: 0; }
+
+  .prose .lead {
+    font-size: 18px; line-height: 1.7;
+    color: var(--ink-mid);
+    border-left: 3px solid var(--accent);
+    padding-left: 20px;
+    margin-bottom: 36px;
+    font-style: italic;
+  }
+
+  .prose h2 {
+    font-family: Georgia, serif;
+    font-size: 20px; font-weight: 700;
+    color: var(--slate);
+    margin: 44px 0 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--stone-200);
+    letter-spacing: -0.01em;
+  }
+
+  .prose h3 {
+    font-family: system-ui, sans-serif;
+    font-size: 13px; font-weight: 700;
+    color: var(--ink-muted);
+    text-transform: uppercase; letter-spacing: 0.08em;
+    margin: 28px 0 10px;
+  }
+
+  .prose p {
+    font-size: 16px; line-height: 1.8;
+    color: var(--ink-mid);
+    margin-bottom: 20px;
+  }
+
+  .prose ul, .prose ol {
+    padding-left: 22px; margin-bottom: 20px;
+  }
+  .prose li {
+    font-size: 15px; line-height: 1.75;
+    color: var(--ink-mid); margin-bottom: 7px;
+  }
+
+  .prose strong { font-weight: 700; color: var(--ink); }
+
+  /* ── CALLOUT TYPES ── */
+  .pullquote {
+    margin: 36px 0;
+    padding: 20px 28px;
+    border-left: 4px solid var(--accent);
+    background: var(--accent-light);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    font-style: italic;
+    font-size: 17px;
+    line-height: 1.65;
+    color: var(--slate);
+  }
+
+  .callout {
+    background: #fff;
+    border: 1px solid var(--border-mid);
+    border-radius: var(--radius);
+    padding: 22px 26px;
+    margin: 28px 0;
+  }
+  .callout-label {
+    font-family: system-ui, sans-serif;
+    font-size: 9px; font-weight: 700;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--ink-faint); margin-bottom: 10px;
+  }
+  .callout ul { padding-left: 18px; }
+  .callout li { font-size: 14px; color: var(--ink-mid); margin-bottom: 5px; }
+
+  .warning-callout {
+    background: var(--warm-light);
+    border: 1px solid rgba(122,92,46,0.2);
+    border-radius: var(--radius);
+    padding: 18px 22px; margin: 28px 0;
+  }
+  .warning-callout .callout-label { color: var(--warm); }
+  .warning-callout li { color: var(--warm); }
+
+  .section-rule {
+    background: var(--slate);
+    color: #fff;
+    padding: 11px 20px;
+    border-radius: var(--radius-sm);
+    margin: 48px 0 20px;
+    font-family: system-ui, sans-serif;
+    font-size: 11px; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-rule::after {
+    content: ''; flex: 1;
+    height: 1px; background: rgba(255,255,255,0.2);
+  }
+
+  /* Two-col KRI table */
+  .kri-table { width: 100%; border-collapse: collapse; margin: 20px 0 28px; font-family: system-ui, sans-serif; font-size: 13px; }
+  .kri-table th { background: var(--slate); color: rgba(255,255,255,0.85); font-weight: 600; padding: 10px 16px; text-align: left; letter-spacing: 0.02em; }
+  .kri-table th:first-child { border-radius: var(--radius-sm) 0 0 0; }
+  .kri-table th:last-child { border-radius: 0 var(--radius-sm) 0 0; }
+  .kri-table td { padding: 10px 16px; border-bottom: 1px solid var(--stone-100); color: var(--ink-mid); vertical-align: top; }
+  .kri-table tr:last-child td { border-bottom: none; }
+  .kri-table tr:nth-child(even) td { background: var(--stone-50); }
+
+  /* Maturity levels */
+  .maturity-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 24px 0 32px; }
+  .maturity-card { background: #fff; border: 1px solid var(--border-mid); border-radius: var(--radius); padding: 18px; }
+  .maturity-card .level { font-family: system-ui, sans-serif; font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 6px; }
+  .maturity-card h4 { font-family: Georgia, serif; font-size: 15px; font-weight: 700; color: var(--slate); margin-bottom: 8px; }
+  .maturity-card p { font-family: system-ui, sans-serif; font-size: 13px; color: var(--ink-muted); line-height: 1.6; margin: 0; }
+  .maturity-card.m1 { border-top: 3px solid var(--stone-300); }
+  .maturity-card.m1 .level { color: var(--ink-faint); }
+  .maturity-card.m2 { border-top: 3px solid var(--accent); }
+  .maturity-card.m2 .level { color: var(--accent); }
+  .maturity-card.m3 { border-top: 3px solid var(--slate); }
+  .maturity-card.m3 .level { color: var(--slate); }
+
+  /* Article footer */
+  .article-footer {
+    margin-top: 56px; padding-top: 28px;
+    border-top: 1px solid var(--stone-200);
+  }
+  .footer-label { font-family: system-ui, sans-serif; font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 14px; }
+  .footer-links { display: flex; flex-direction: column; gap: 10px; }
+  .footer-link { display: flex; align-items: flex-start; gap: 10px; text-decoration: none; font-family: system-ui, sans-serif; }
+  .footer-link-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-faint); min-width: 80px; padding-top: 1px; }
+  .footer-link-title { font-size: 14px; color: var(--accent); font-weight: 500; }
+  .footer-link-title:hover { text-decoration: underline; }
+
+  /* ── SIDEBAR ── */
+  .sidebar { position: sticky; top: 72px; font-family: system-ui, sans-serif; }
+
+  .sidebar-block {
+    background: #fff; border: 1px solid var(--border-mid);
+    border-radius: var(--radius);
+    padding: 18px 20px; margin-bottom: 14px;
+  }
+  .sidebar-block h4 {
+    font-size: 9px; font-weight: 700; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--ink-faint);
+    margin-bottom: 12px; padding-bottom: 8px;
+    border-bottom: 1px solid var(--stone-100);
+  }
+
+  .toc-link {
+    display: block; font-size: 12px; color: var(--ink-muted);
+    text-decoration: none; padding: 5px 0 5px 10px;
+    border-left: 2px solid transparent;
+    line-height: 1.45; transition: all 0.15s;
+  }
+  .toc-link:hover { color: var(--accent); border-left-color: var(--accent-rule); }
+  .toc-link.active { color: var(--accent); border-left-color: var(--accent); font-weight: 600; }
+
+  .tag {
+    display: inline-block; font-size: 10px;
+    padding: 3px 8px; border-radius: 3px;
+    font-weight: 600; margin: 2px 2px 2px 0;
+    letter-spacing: 0.03em;
+  }
+  .tag-adv     { background: var(--accent-light); color: var(--accent); }
+  .tag-gov     { background: var(--slate-light); color: var(--slate); }
+  .tag-topic   { background: var(--stone-100); color: var(--ink-muted); }
+  .tag-live    { background: var(--success-bg); color: var(--success); }
+
+  .rel-link { display: block; text-decoration: none; padding: 9px 0; border-bottom: 1px solid var(--stone-100); }
+  .rel-link:last-child { border-bottom: none; padding-bottom: 0; }
+  .rel-link-title { font-size: 12px; font-weight: 600; color: var(--slate); display: block; margin-bottom: 2px; line-height: 1.4; }
+  .rel-link-sub { font-size: 11px; color: var(--ink-faint); }
+  .rel-link:hover .rel-link-title { color: var(--accent); }
+
+  /* ── PAGE FOOTER ── */
+  footer {
+    background: var(--ink); color: rgba(255,255,255,0.4);
+    padding: 24px 48px; font-size: 11px;
+    font-family: system-ui, sans-serif;
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
+    letter-spacing: 0.03em;
+  }
+  footer a { color: rgba(255,255,255,0.4); text-decoration: none; }
+  footer a:hover { color: rgba(255,255,255,0.8); }
+
+  @media (max-width: 740px) {
+    nav { padding: 0 16px; }
+    .article-header { padding: 36px 16px 32px; }
+    .page-layout { grid-template-columns: 1fr; padding: 32px 16px 60px; }
+    .sidebar { position: static; }
+    .maturity-grid { grid-template-columns: 1fr; }
+    footer { padding: 20px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="../index.html">Fraud Risk <em>Intelligence</em></a>
+  <a class="nav-back" href="../index.html">← All articles</a>
+</nav>
+
+<div class="article-header">
+  <div class="header-inner">
+    <div class="header-series">SERIES ARTICLE — THE FRAUD RISK PRACTITIONER'S HANDBOOK</div>
+    <h1>ARTICLE_TITLE</h1>
+    <p class="deck">ARTICLE_DECK</p>
+    <div class="header-meta">
+      <div class="meta-item"><span class="meta-label">Article</span><span class="meta-value">ARTICLE_NUM of 5</span></div>
+      <div class="meta-item"><span class="meta-label">Level</span><span class="meta-value">LEVEL</span></div>
+      <div class="meta-item"><span class="meta-label">Read time</span><span class="meta-value">~X min</span></div>
+      <div class="meta-item"><span class="meta-label">Focus</span><span class="meta-value">FOCUS_AREA</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="page-layout">
+  <article class="prose">
+
+    <!-- Opening lead paragraph -->
+    <p class="lead">LEAD_PARAGRAPH</p>
+
+    <!-- ═══ SECTION 1 ═══ -->
+    <div class="section-rule" id="s1">01 — Section title</div>
+
+    <p>Body text here.</p>
+
+    <div class="pullquote">
+      "A pull quote capturing the key insight of this section."
+    </div>
+
+    <!-- ═══ SECTION 2 ═══ -->
+    <div class="section-rule" id="s2">02 — Section title</div>
+
+    <h2>Subsection heading</h2>
+    <p>Body text here.</p>
+
+    <div class="callout">
+      <div class="callout-label">Key points</div>
+      <ul>
+        <li>Point one</li>
+        <li>Point two</li>
+      </ul>
+    </div>
+
+    <!-- ═══ SECTION 3 ═══ -->
+    <div class="section-rule" id="s3">03 — Section title</div>
+
+    <table class="kri-table">
+      <thead><tr><th>Column A</th><th>Column B</th></tr></thead>
+      <tbody>
+        <tr><td>Item</td><td>Description</td></tr>
+      </tbody>
+    </table>
+
+    <!-- ═══ SECTION 4 ═══ -->
+    <div class="section-rule" id="s4">04 — Section title</div>
+
+    <div class="maturity-grid">
+      <div class="maturity-card m1">
+        <div class="level">Level 1</div>
+        <h4>Reactive</h4>
+        <p>Description of this maturity level.</p>
+      </div>
+      <div class="maturity-card m2">
+        <div class="level">Level 2</div>
+        <h4>Coordinated</h4>
+        <p>Description of this maturity level.</p>
+      </div>
+      <div class="maturity-card m3">
+        <div class="level">Level 3</div>
+        <h4>Integrated</h4>
+        <p>Description of this maturity level.</p>
+      </div>
+    </div>
+
+    <!-- ═══ ARTICLE FOOTER / CROSS-REFERENCES ═══ -->
+    <div class="article-footer">
+      <div class="footer-label">Continue reading</div>
+      <div class="footer-links">
+        <div class="footer-link">
+          <span class="footer-link-label">Next</span>
+          <a class="footer-link-title" href="NEXT_FILE.html">NEXT_ARTICLE_TITLE</a>
+        </div>
+        <div class="footer-link">
+          <span class="footer-link-label">Related</span>
+          <a class="footer-link-title" href="stopping-fraud.html">Stopping Fraud Before It Starts</a>
+        </div>
+        <div class="footer-link">
+          <span class="footer-link-label">Discuss</span>
+          <a class="footer-link-title" href="https://linkedin.com/in/YOUR-PROFILE">Join the conversation on LinkedIn →</a>
+        </div>
+      </div>
+    </div>
+
+  </article>
+
+  <!-- ═══ SIDEBAR ═══ -->
+  <aside class="sidebar">
+    <div class="sidebar-block">
+      <h4>In this article</h4>
+      <a class="toc-link" href="#s1">Section one</a>
+      <a class="toc-link" href="#s2">Section two</a>
+      <a class="toc-link" href="#s3">Section three</a>
+      <a class="toc-link" href="#s4">Section four</a>
+    </div>
+    <div class="sidebar-block">
+      <h4>Tags</h4>
+      <span class="tag tag-adv">Advanced</span>
+      <span class="tag tag-gov">Governance</span>
+      <span class="tag tag-topic">Cross-functional</span>
+    </div>
+    <div class="sidebar-block">
+      <h4>In this series</h4>
+      <a class="rel-link" href="fraud-typology.html">
+        <span class="rel-link-title">1 — Know Your Enemy</span>
+        <span class="rel-link-sub">Fraud typologies</span>
+      </a>
+      <a class="rel-link" href="cross-functional.html" style="background:var(--stone-50); margin: 0 -20px; padding: 9px 20px;">
+        <span class="rel-link-title" style="color:var(--slate);">2 — The Fraud Function ←</span>
+        <span class="rel-link-sub">You are here</span>
+      </a>
+      <a class="rel-link" href="product-risk.html">
+        <span class="rel-link-title">3 — Product Risk Profiles</span>
+        <span class="rel-link-sub">Deposits, loans, cards</span>
+      </a>
+      <a class="rel-link" href="building-defenses.html">
+        <span class="rel-link-title">5 — Building the Defense</span>
+        <span class="rel-link-sub">Zero to continuous improvement</span>
+      </a>
+    </div>
+    <div class="sidebar-block">
+      <h4>Standalone deep-dives</h4>
+      <a class="rel-link" href="stopping-fraud.html">
+        <span class="rel-link-title">Stopping Fraud Before It Starts</span>
+        <span class="rel-link-sub">Upstream detection</span>
+      </a>
+      <a class="rel-link" href="deepfake-frontier.html">
+        <span class="rel-link-title">The Deepfake Frontier</span>
+        <span class="rel-link-sub">AI & emerging threats</span>
+      </a>
+    </div>
+  </aside>
+</div>
+
+<footer>
+  <span>Fraud Risk Intelligence — Practitioner Knowledge Repository</span>
+  <a href="../index.html">← All articles</a>
+</footer>
+
+<script>
+const tocLinks = document.querySelectorAll('.toc-link');
+const sections = document.querySelectorAll('.section-rule[id]');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      tocLinks.forEach(l => l.classList.remove('active'));
+      const a = document.querySelector(`.toc-link[href="#${e.target.id}"]`);
+      if (a) a.classList.add('active');
+    }
+  });
+}, { rootMargin: '-15% 0px -75% 0px' });
+sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
