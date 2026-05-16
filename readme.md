@@ -18,7 +18,7 @@ A structured four-part series building from foundational typology knowledge thro
 | 1 | [Know Your Enemy: A Practitioner's Guide to Fraud Typologies](./articles/fraud-typology.html) | Foundational | ✅ Published |
 | 2 | [The Fraud Function: Operating Within the Business](./articles/cross-functional.html) | Advanced | ✅ Published |
 | 3 | [Product Risk Profiles: Tailoring Defense to the Battleground](./articles/product-risk.html) | Intermediate | ✅ Published |
-| 4 | The Technology Stack: Models, Decisioning & the Vendor Landscape | Intermediate | 🔜 Coming soon |
+| 4 | [The Technology Stack: Models, Decisioning & the Vendor Landscape](./articles/fraud-tech-stack.html) | Intermediate | ✅ Published |
 | 5 | [Building the Fraud Defense: From Zero to Continuous Enhancement] | Strategic | 🔜 Coming soon |
 
 ### Standalone Deep-Dives
