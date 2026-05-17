@@ -19,7 +19,7 @@ A structured four-part series building from foundational typology knowledge thro
 | 2 | [The Fraud Function: Operating Within the Business](./articles/cross-functional.html) | Advanced | ✅ Published |
 | 3 | [Product Risk Profiles: Tailoring Defense to the Battleground](./articles/product-risk.html) | Intermediate | ✅ Published |
 | 4 | [The Technology Stack: Models, Decisioning & the Vendor Landscape](./articles/fraud-tech-stack.html) | Intermediate | ✅ Published |
-| 5 | [Building the Fraud Defense: From Zero to Continuous Enhancement] | Strategic | 🔜 Coming soon |
+| 5 | [Building the Fraud Defense: From Zero to Continuous Enhancement] | Strategic | ✅ Published |
 
 ### Standalone Deep-Dives
 
