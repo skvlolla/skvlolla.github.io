@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Deepfake Frontier: How Generative AI Is Rewriting the Fraud Threat Landscape — Fraud Risk Intelligence</title>
+<style>
+  :root {
+    --ink:         #1A1A1A;
+    --ink-mid:     #3D3D3A;
+    --ink-muted:   #6B6B67;
+    --ink-faint:   #9A9A95;
+    --stone-50:    #F5F4F0;
+    --stone-100:   #ECEAE4;
+    --stone-200:   #D8D5CC;
+    --stone-300:   #B8B5AB;
+    --slate:       #2C3E50;
+    --slate-light: #EBF0F5;
+    --accent:      #2C6E8A;
+    --accent-light:#E6F2F7;
+    --accent-rule: #A8CCDA;
+    --warm:        #7A5C2E;
+    --warm-light:  #F5EFE4;
+    --success:     #2D6A4F;
+    --success-bg:  #EBF5F0;
+    --danger:      #7A2020;
+    --danger-bg:   #FAEDED;
+    --border:      rgba(0,0,0,0.07);
+    --border-mid:  rgba(0,0,0,0.12);
+    --radius:      6px;
+    --radius-sm:   4px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: Georgia, "Times New Roman", serif; background: var(--stone-50); color: var(--ink); font-size: 16px; line-height: 1.75; }
+
+  /* NAV */
+  nav { background: var(--slate); padding: 0 48px; display: flex; align-items: center; justify-content: space-between; height: 52px; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .nav-brand { color: #fff; font-size: 13px; font-weight: 400; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; font-family: system-ui, sans-serif; }
+  .nav-brand em { color: var(--accent-rule); font-style: normal; font-weight: 700; }
+  .nav-back { color: rgba(255,255,255,0.55); font-size: 12px; text-decoration: none; font-family: system-ui, sans-serif; letter-spacing: 0.04em; transition: color 0.15s; }
+  .nav-back:hover { color: rgba(255,255,255,0.9); }
+
+  /* HEADER */
+  .article-header { background: var(--slate); padding: 56px 48px 48px; border-bottom: 3px solid var(--accent); }
+  .header-inner { max-width: 780px; margin: 0 auto; }
+  .header-series { display: inline-flex; align-items: center; gap: 8px; font-family: system-ui, sans-serif; font-size: 10px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent-rule); margin-bottom: 20px; }
+  .header-series::before { content: ''; display: block; width: 20px; height: 1px; background: var(--accent-rule); opacity: 0.6; }
+  .article-header h1 { font-family: Georgia, serif; font-size: clamp(24px, 3.5vw, 36px); font-weight: 700; line-height: 1.2; color: #fff; letter-spacing: -0.01em; margin-bottom: 18px; }
+  .article-header .deck { font-family: system-ui, sans-serif; font-size: 15px; line-height: 1.65; color: rgba(255,255,255,0.62); max-width: 640px; margin-bottom: 32px; font-style: italic; }
+  .header-meta { display: flex; gap: 0; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 24px; font-family: system-ui, sans-serif; }
+  .meta-item { display: flex; flex-direction: column; gap: 3px; padding-right: 28px; margin-right: 28px; border-right: 1px solid rgba(255,255,255,0.1); }
+  .meta-item:last-child { border-right: none; padding-right: 0; margin-right: 0; }
+  .meta-label { font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.35); }
+  .meta-value { font-size: 12px; color: rgba(255,255,255,0.72); font-weight: 500; }
+
+  /* LAYOUT */
+  .page-layout { max-width: 1080px; margin: 0 auto; padding: 52px 24px 80px; display: grid; grid-template-columns: 1fr 220px; gap: 56px; align-items: start; }
+
+  /* PROSE */
+  .prose { min-width: 0; }
+  .prose .lead { font-size: 18px; line-height: 1.7; color: var(--ink-mid); border-left: 3px solid var(--accent); padding-left: 20px; margin-bottom: 36px; font-style: italic; }
+  .prose h2 { font-family: Georgia, serif; font-size: 19px; font-weight: 700; color: var(--slate); margin: 36px 0 12px; padding-bottom: 8px; border-bottom: 1px solid var(--stone-200); letter-spacing: -0.01em; }
+  .prose p { font-size: 16px; line-height: 1.8; color: var(--ink-mid); margin-bottom: 20px; }
+  .prose ul { padding-left: 22px; margin-bottom: 20px; }
+  .prose li { font-size: 15px; line-height: 1.75; color: var(--ink-mid); margin-bottom: 7px; }
+  .prose strong { font-weight: 700; color: var(--ink); }
+
+  .section-rule { background: var(--slate); color: #fff; padding: 11px 20px; border-radius: var(--radius-sm); margin: 48px 0 24px; font-family: system-ui, sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; display: flex; align-items: center; gap: 10px; }
+  .section-rule::after { content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.2); }
+
+  .pullquote { margin: 36px 0; padding: 20px 28px; border-left: 4px solid var(--accent); background: var(--accent-light); border-radius: 0 var(--radius) var(--radius) 0; font-style: italic; font-size: 17px; line-height: 1.65; color: var(--slate); }
+
+  .callout { background: #fff; border: 1px solid var(--border-mid); border-radius: var(--radius); padding: 22px 26px; margin: 28px 0; }
+  .callout-label { font-family: system-ui, sans-serif; font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 12px; }
+  .callout ul { padding-left: 18px; }
+  .callout li { font-family: system-ui, sans-serif; font-size: 14px; color: var(--ink-mid); margin-bottom: 6px; line-height: 1.65; }
+
+  .danger-callout { background: var(--danger-bg); border: 1px solid rgba(122,32,32,0.15); border-left: 4px solid var(--danger); border-radius: var(--radius); padding: 20px 24px; margin: 28px 0; }
+  .danger-callout .callout-label { color: var(--danger); }
+  .danger-callout ul { padding-left: 18px; }
+  .danger-callout li { font-family: system-ui, sans-serif; font-size: 14px; color: var(--danger); margin-bottom: 6px; line-height: 1.65; }
+  .danger-callout p { font-family: system-ui, sans-serif; font-size: 14px; color: var(--danger); line-height: 1.65; margin: 0; }
+
+  /* Three-threat cards */
+  .threat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 24px 0 36px; }
+  .threat-card { background: #fff; border: 1px solid var(--border-mid); border-radius: var(--radius); padding: 20px; border-top: 3px solid var(--danger); }
+  .threat-num { font-family: system-ui, sans-serif; font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--danger); margin-bottom: 8px; }
+  .threat-title { font-family: Georgia, serif; font-size: 15px; font-weight: 700; color: var(--slate); margin-bottom: 10px; }
+  .threat-desc { font-family: system-ui, sans-serif; font-size: 13px; color: var(--ink-muted); line-height: 1.65; }
+
+  /* Four adaptations */
+  .adaptation-list { display: flex; flex-direction: column; gap: 0; margin: 24px 0 36px; }
+  .adaptation-item { display: flex; gap: 0; position: relative; }
+  .adaptation-left { flex-shrink: 0; width: 48px; display: flex; flex-direction: column; align-items: center; }
+  .adaptation-circle { width: 38px; height: 38px; border-radius: 50%; background: var(--slate); color: #fff; display: flex; align-items: center; justify-content: center; font-family: system-ui, sans-serif; font-size: 14px; font-weight: 700; flex-shrink: 0; z-index: 1; }
+  .adaptation-line { flex: 1; width: 2px; background: var(--stone-200); margin: 0 auto; }
+  .adaptation-item:last-child .adaptation-line { display: none; }
+  .adaptation-body { flex: 1; background: #fff; border: 1px solid var(--border-mid); border-radius: var(--radius); padding: 18px 22px; margin-left: 12px; margin-bottom: 12px; }
+  .adaptation-title { font-family: system-ui, sans-serif; font-size: 13px; font-weight: 700; color: var(--slate); margin-bottom: 6px; }
+  .adaptation-desc { font-family: system-ui, sans-serif; font-size: 13px; color: var(--ink-muted); line-height: 1.65; }
+
+  /* Governance cadence */
+  .governance-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 20px 0 32px; }
+  .gov-card { background: #fff; border: 1px solid var(--border-mid); border-radius: var(--radius); padding: 16px 18px; }
+  .gov-card-label { font-family: system-ui, sans-serif; font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+  .gov-card h4 { font-family: system-ui, sans-serif; font-size: 13px; font-weight: 700; color: var(--slate); margin-bottom: 6px; }
+  .gov-card ul { padding-left: 14px; }
+  .gov-card li { font-family: system-ui, sans-serif; font-size: 12px; color: var(--ink-muted); margin-bottom: 4px; line-height: 1.55; }
+
+  /* Article footer */
+  .article-footer { margin-top: 56px; padding-top: 28px; border-top: 1px solid var(--stone-200); }
+  .footer-label { font-family: system-ui, sans-serif; font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 14px; }
+  .footer-links { display: flex; flex-direction: column; gap: 10px; }
+  .footer-link { display: flex; align-items: flex-start; gap: 10px; }
+  .footer-link-label { font-family: system-ui, sans-serif; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-faint); min-width: 80px; padding-top: 1px; }
+  .footer-link-title { font-family: system-ui, sans-serif; font-size: 14px; color: var(--accent); font-weight: 500; text-decoration: none; }
+  .footer-link-title:hover { text-decoration: underline; }
+  .companion-note { font-family: system-ui, sans-serif; font-size: 12px; color: var(--ink-faint); font-style: italic; margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--stone-100); }
+
+  /* SIDEBAR */
+  .sidebar { position: sticky; top: 72px; font-family: system-ui, sans-serif; }
+  .sidebar-block { background: #fff; border: 1px solid var(--border-mid); border-radius: var(--radius); padding: 18px 20px; margin-bottom: 14px; }
+  .sidebar-block h4 { font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--stone-100); }
+  .toc-link { display: block; font-size: 12px; color: var(--ink-muted); text-decoration: none; padding: 5px 0 5px 10px; border-left: 2px solid transparent; line-height: 1.45; transition: all 0.15s; }
+  .toc-link:hover { color: var(--accent); border-left-color: var(--accent-rule); }
+  .toc-link.active { color: var(--accent); border-left-color: var(--accent); font-weight: 600; }
+  .tag { display: inline-block; font-size: 10px; padding: 3px 8px; border-radius: 3px; font-weight: 600; margin: 2px 2px 2px 0; letter-spacing: 0.03em; }
+  .tag-adv   { background: var(--warm-light); color: var(--warm); }
+  .tag-topic { background: var(--stone-100);  color: var(--ink-muted); }
+  .rel-link { display: block; text-decoration: none; padding: 9px 0; border-bottom: 1px solid var(--stone-100); }
+  .rel-link:last-child { border-bottom: none; padding-bottom: 0; }
+  .rel-link-title { font-size: 12px; font-weight: 600; color: var(--slate); display: block; margin-bottom: 2px; line-height: 1.4; }
+  .rel-link-sub { font-size: 11px; color: var(--ink-faint); }
+  .rel-link:hover .rel-link-title { color: var(--accent); }
+  .current-article { background: var(--stone-50); margin: 0 -20px; padding: 9px 20px; }
+
+  footer { background: var(--ink); color: rgba(255,255,255,0.4); padding: 24px 48px; font-size: 11px; font-family: system-ui, sans-serif; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; letter-spacing: 0.03em; }
+  footer a { color: rgba(255,255,255,0.4); text-decoration: none; }
+  footer a:hover { color: rgba(255,255,255,0.8); }
+
+  @media (max-width: 740px) {
+    nav { padding: 0 16px; } .article-header { padding: 36px 16px 32px; }
+    .page-layout { grid-template-columns: 1fr; padding: 32px 16px 60px; }
+    .sidebar { position: static; }
+    .threat-grid, .governance-grid { grid-template-columns: 1fr; }
+    footer { padding: 20px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="../index.html">Fraud Risk <em>Intelligence</em></a>
+  <a class="nav-back" href="../index.html">← All articles</a>
+</nav>
+
+<div class="article-header">
+  <div class="header-inner">
+    <div class="header-series">Standalone Deep-Dive — Emerging Threats</div>
+    <h1>The Deepfake Frontier: How Generative AI Is Rewriting the Fraud Threat Landscape</h1>
+    <p class="deck">Why the controls that anchored fraud prevention for a decade are no longer sufficient — and what must replace them.</p>
+    <div class="header-meta">
+      <div class="meta-item"><span class="meta-label">Level</span><span class="meta-value">Advanced</span></div>
+      <div class="meta-item"><span class="meta-label">Read time</span><span class="meta-value">~11 min</span></div>
+      <div class="meta-item"><span class="meta-label">Focus</span><span class="meta-value">Generative AI · Liveness detection · Document forensics · Governance velocity</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="page-layout">
+<article class="prose">
+
+  <p class="lead">Fraud has always adapted to the controls designed to stop it. What is different today is the pace and accessibility of that adaptation. Generative artificial intelligence has placed capabilities once available only to well-resourced criminal organizations into the hands of any sufficiently motivated actor with a consumer laptop and an internet connection. The implications for financial services fraud prevention are profound and largely underestimated.</p>
+
+  <!-- S1 -->
+  <div class="section-rule" id="s1">01 — Three developments that define the threat shift</div>
+
+  <p>The current moment is not simply another iteration of the recurring arms race between fraud and controls. It represents a qualitative shift in what attackers can do, how cheaply they can do it, and how quickly new attack capabilities become broadly accessible. Three developments sit at the center of this shift.</p>
+
+  <div class="threat-grid">
+    <div class="threat-card">
+      <div class="threat-num">Threat 01</div>
+      <div class="threat-title">Synthetic media at real-time speed</div>
+      <div class="threat-desc">Deepfake video and audio can now convincingly impersonate real individuals in real time — undermining biometric liveness checks that have been the cornerstone of remote identity verification since the pandemic-era shift to digital onboarding.</div>
+    </div>
+    <div class="threat-card">
+      <div class="threat-num">Threat 02</div>
+      <div class="threat-title">AI-generated document fraud</div>
+      <div class="threat-desc">Passports, pay stubs, utility bills, and bank statements generated by AI are increasingly indistinguishable from genuine artifacts to both human reviewers and legacy document verification systems — collapsing a control layer institutions have relied on for decades.</div>
+    </div>
+    <div class="threat-card">
+      <div class="threat-num">Threat 03</div>
+      <div class="threat-title">Industrial-scale social engineering</div>
+      <div class="threat-desc">Large language models enable highly personalized phishing messages, vishing scripts, and APP scam communications at scale — grammatically flawless, culturally attuned, and individually tailored in ways that defeat the heuristics previously used to identify fraudulent communications.</div>
+    </div>
+  </div>
+
+  <div class="pullquote">"The fraud controls built on the assumption that a human face, a human voice, or a physical document can be trusted are now structurally vulnerable. That assumption no longer holds."</div>
+
+  <!-- S2 -->
+  <div class="section-rule" id="s2">02 — The collapse of liveness detection</div>
+
+  <p>Liveness detection — the use of facial movement prompts or passive biometric analysis to confirm that a presented face is real and present — was introduced specifically to defeat static photo and pre-recorded video attacks. It was effective. For several years it represented a meaningful barrier to remote identity fraud in banking onboarding flows, lending platforms, and digital wallet provisioning.</p>
+
+  <p>That barrier has been substantially eroded. Generative AI models trained on publicly available video data can now synthesize real-time responsive facial deepfakes that pass many first and second-generation liveness checks. This is not a theoretical vulnerability. Attacks of this type have been confirmed across onboarding flows in retail banking and digital financial services. The attacker presents a live-rendered deepfake of a real person's face — responsive to movement prompts, blinking naturally, tracking the camera — and passes a verification check that was designed to detect exactly this kind of attack.</p>
+
+  <h2>Voice cloning: the audio equivalent</h2>
+  <p>Voice cloning presents an equivalent threat in audio-based verification channels. With as little as three seconds of a target's voice — recoverable from a public video, a voicemail, or a call recording — AI tools commercially available today can generate a cloned voice capable of passing voice authentication systems and, more immediately dangerous, deceiving call center agents conducting verbal verification.</p>
+
+  <p>The social engineering dimension amplifies the risk considerably. A fraudster impersonating a bank customer to a call center agent, in that customer's own voice, and providing correct account details obtained through prior data collection, represents a scenario that no amount of agent training can reliably defeat. The agent is not failing — the signal they are relying on is no longer trustworthy.</p>
+
+  <!-- S3 -->
+  <div class="section-rule" id="s3">03 — The compounding attack: where the real danger lies</div>
+
+  <p>The fraud detection architecture that underpins modern prevention frameworks — signal richness, behavioral profiling, document verification, biometric matching — remains the right foundation. But each layer now faces specific AI-driven attack vectors that erode its effectiveness when left unaddressed.</p>
+
+  <div class="danger-callout">
+    <div class="callout-label">Specific vulnerabilities introduced by generative AI</div>
+    <ul>
+      <li><strong>Biometric liveness:</strong> Real-time deepfake video defeats first and second-generation liveness checks</li>
+      <li><strong>Document verification:</strong> AI-generated documents pass OCR and visual authentication at scale</li>
+      <li><strong>Voice authentication:</strong> Sub-three-second voice cloning defeats IVR systems and agent verification</li>
+      <li><strong>Behavioral biometrics:</strong> AI-driven browser automation increasingly mimics natural human interaction patterns</li>
+      <li><strong>Social engineering:</strong> LLM-generated phishing achieves near-zero grammatical error rates — removing one of the most reliable detection heuristics</li>
+      <li><strong>Consortium signals:</strong> Synthetic identities built gradually over time continue to evade historical fraud databases</li>
+    </ul>
+  </div>
+
+  <p>Of particular concern is the compounding effect. An attacker deploying AI across multiple layers simultaneously — a deepfake face for liveness, an AI-generated document for proof of income, an LLM-crafted application narrative for internal consistency — creates a composite presentation of legitimacy that individually exceeds the detection threshold of each control. The whole attack is more than the sum of its parts, in exactly the same way that a well-designed fraud detection system is designed to be. The adversary has adopted the institution's own logic.</p>
+
+  <div class="pullquote">"Fighting AI-enabled fraud with static rule sets is the equivalent of using last decade's map to navigate this decade's roads. The terrain has changed. The tools must change with it."</div>
+
+  <!-- S4 -->
+  <div class="section-rule" id="s4">04 — Four adaptations that are immediately actionable</div>
+
+  <p>The response is not to abandon the existing framework — it is to harden it against the specific attack vectors AI introduces, and to add detection layers that operate at a level of sophistication commensurate with the threat. Four adaptations require immediate attention.</p>
+
+  <div class="adaptation-list">
+    <div class="adaptation-item">
+      <div class="adaptation-left">
+        <div class="adaptation-circle">1</div>
+        <div class="adaptation-line"></div>
+      </div>
+      <div class="adaptation-body">
+        <div class="adaptation-title">Next-generation liveness and biometric verification</div>
+        <div class="adaptation-desc">Third and fourth-generation liveness detection — incorporating passive biometric analysis, sub-pixel artifact detection, and challenge-response mechanisms that are computationally difficult to spoof in real time — must replace legacy implementations. Institutions should require identity verification vendors to demonstrate adversarial testing against <em>current</em> generative AI models, not against the attack typologies of 2021. Hardware-backed attestation, where the device itself cryptographically confirms camera integrity, provides an additional layer that software-only deepfake attacks cannot circumvent.</div>
+      </div>
+    </div>
+    <div class="adaptation-item">
+      <div class="adaptation-left">
+        <div class="adaptation-circle">2</div>
+        <div class="adaptation-line"></div>
+      </div>
+      <div class="adaptation-body">
+        <div class="adaptation-title">Document forensics at the signal level</div>
+        <div class="adaptation-desc">Document verification must move beyond visual pattern matching and OCR consistency checking to forensic signal analysis: metadata integrity, print pattern examination, digital watermark validation, and — for electronic documents — provenance chain verification. AI-generated documents are visually convincing but leave forensic traces in compression artifacts, font rendering inconsistencies, and metadata anomalies that purpose-built detection models can identify. Critically, these detection models must themselves be continuously retrained as generative models improve — a static document forensics capability will degrade as rapidly as static liveness detection has.</div>
+      </div>
+    </div>
+    <div class="adaptation-item">
+      <div class="adaptation-left">
+        <div class="adaptation-circle">3</div>
+        <div class="adaptation-line"></div>
+      </div>
+      <div class="adaptation-body">
+        <div class="adaptation-title">Behavioral and contextual layering</div>
+        <div class="adaptation-desc">Behavioral biometrics — keystroke dynamics, mouse movement patterns, scroll behavior — remain harder to replicate convincingly than static biometrics because they require sustained, contextually appropriate simulation across an entire session. Investment in passive behavioral monitoring, combined with device-level integrity signals (rooting, emulation, injection detection), closes the gap that deepfake video attacks exploit. Context matters equally: a biometrically verified identity attempting to open three products simultaneously from a new device in an unusual geography should trigger independent re-verification, regardless of how convincing the individual signals appear in isolation.</div>
+      </div>
+    </div>
+    <div class="adaptation-item">
+      <div class="adaptation-left">
+        <div class="adaptation-circle">4</div>
+      </div>
+      <div class="adaptation-body">
+        <div class="adaptation-title">Human-AI collaboration in review</div>
+        <div class="adaptation-desc">The instinct to automate fraud decisions more aggressively as AI attacks scale is understandable but counterproductive if it simply means faster application of controls that AI can already defeat. The more productive evolution is a better division of labor: AI systems handle volume and pattern recognition across thousands of signals simultaneously, while human analysts are re-focused on the highest-complexity, highest-ambiguity cases — precisely the category where generative AI attacks are most likely to create uncertainty. Analyst training must evolve in parallel, including specific education on AI-generated artifact recognition and social engineering awareness.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S5 -->
+  <div class="section-rule" id="s5">05 — Governance velocity: the strategic imperative</div>
+
+  <p>Perhaps the most important strategic implication of AI-driven fraud is not any specific attack vector but the velocity at which the threat evolves. A detection model trained on the generative AI capabilities of twelve months ago is already partially obsolete. This introduces a governance imperative that most institutions have not yet fully absorbed: the fraud detection framework is no longer a system to be built and maintained — it is a system to be continuously re-evaluated against a threat landscape that does not stand still.</p>
+
+  <div class="governance-grid">
+    <div class="gov-card">
+      <div class="gov-card-label">Quarterly minimum</div>
+      <h4>Adversarial testing</h4>
+      <ul>
+        <li>Test biometric &amp; liveness controls against current AI models</li>
+        <li>Test document verification against current generative tooling</li>
+        <li>Red team the full onboarding and transaction journey</li>
+      </ul>
+    </div>
+    <div class="gov-card">
+      <div class="gov-card-label">Vendor accountability</div>
+      <h4>Mandatory disclosure</h4>
+      <ul>
+        <li>Liveness generation version disclosed</li>
+        <li>Adversarial test results shared with institution</li>
+        <li>Model retraining cadence agreed contractually</li>
+      </ul>
+    </div>
+    <div class="gov-card">
+      <div class="gov-card-label">Executive visibility</div>
+      <h4>Board-level governance</h4>
+      <ul>
+        <li>AI fraud exposure named as an operational risk category</li>
+        <li>Real-time typology intelligence sharing via consortium</li>
+        <li>Detection model cycles shortened to continuous where feasible</li>
+      </ul>
+    </div>
+  </div>
+
+  <p>Regulatory expectations are moving in the same direction. Supervisory bodies in the US, UK, and EU have begun signaling that AI-specific fraud risk must be explicitly addressed within operational resilience frameworks. Institutions that treat AI fraud as a subset of existing fraud typologies — rather than a qualitatively different risk requiring dedicated controls — are likely to find themselves behind both the threat and the regulatory curve simultaneously.</p>
+
+  <div class="callout">
+    <div class="callout-label">Signs a governance framework is not keeping pace</div>
+    <ul>
+      <li>Liveness detection vendors have not been asked to demonstrate adversarial testing in the past 12 months</li>
+      <li>Document verification controls have not been updated since the institution's last major platform implementation</li>
+      <li>Detection model retraining is scheduled on an annual calendar cycle rather than triggered by performance metrics or threat intelligence</li>
+      <li>AI fraud is reported under existing typology categories rather than tracked as a distinct exposure</li>
+      <li>Board or risk committee has not received a dedicated briefing on AI-enabled fraud in the past year</li>
+    </ul>
+  </div>
+
+  <!-- CONCLUSION -->
+  <div class="section-rule" id="s6">Conclusion</div>
+
+  <p>Generative AI has not invalidated the principles of upstream fraud prevention — precision detection, signal richness, behavioral profiling, and the equal imperative to protect legitimate customers. It has, however, fundamentally altered the threat against which those principles must be applied. Biometric liveness, document authenticity, and the human voice can no longer be treated as reliable anchors of identity. Each has been compromised not by a theoretical future capability but by tools that are in active deployment today.</p>
+
+  <p>The institutions best positioned to navigate this shift are those that treat their fraud detection framework not as infrastructure to be deployed but as a capability to be continuously evolved — adversarially tested, vendor-challenged, and governed at the highest level of organizational attention. The arms race with AI-enabled fraud has begun. The institutions that move first to acknowledge its terms will be the ones best placed to win it.</p>
+
+  <!-- ARTICLE FOOTER -->
+  <div class="article-footer">
+    <div class="footer-label">Related reading</div>
+    <div class="footer-links">
+      <div class="footer-link">
+        <span class="footer-link-label">Companion</span>
+        <a class="footer-link-title" href="./stopping-fraud.html">Stopping Fraud Before It Starts — the upstream detection framework this article builds on</a>
+      </div>
+      <div class="footer-link">
+        <span class="footer-link-label">Technology</span>
+        <a class="footer-link-title" href="./fraud-tech-stack.html">Article 4 — The Technology Stack: Models, Decisioning &amp; the Vendor Landscape</a>
+      </div>
+      <div class="footer-link">
+        <span class="footer-link-label">Typology</span>
+        <a class="footer-link-title" href="./fraud-typology.html">Article 1 — Know Your Enemy: A Practitioner's Guide to Fraud Typologies</a>
+      </div>
+      <div class="footer-link">
+        <span class="footer-link-label">Discuss</span>
+        <a class="footer-link-title" href="https://linkedin.com/in/YOUR-PROFILE">Join the conversation on LinkedIn →</a>
+      </div>
+    </div>
+    <div class="companion-note">This article is a companion to <em>Stopping Fraud Before It Starts</em> and is intended for risk management, technology, and executive audiences within financial services institutions.</div>
+  </div>
+
+</article>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-block">
+    <h4>In this article</h4>
+    <a class="toc-link" href="#s1">Three threat developments</a>
+    <a class="toc-link" href="#s2">Collapse of liveness detection</a>
+    <a class="toc-link" href="#s3">The compounding attack</a>
+    <a class="toc-link" href="#s4">Four actionable adaptations</a>
+    <a class="toc-link" href="#s5">Governance velocity</a>
+    <a class="toc-link" href="#s6">Conclusion</a>
+  </div>
+  <div class="sidebar-block">
+    <h4>Tags</h4>
+    <span class="tag tag-adv">Advanced</span>
+    <span class="tag tag-topic">AI threats</span>
+    <span class="tag tag-topic">Deepfakes</span>
+    <span class="tag tag-topic">Liveness detection</span>
+    <span class="tag tag-topic">Document forensics</span>
+    <span class="tag tag-topic">Governance</span>
+  </div>
+  <div class="sidebar-block">
+    <h4>Core series</h4>
+    <a class="rel-link" href="./fraud-typology.html">
+      <span class="rel-link-title">1 — Know Your Enemy</span>
+      <span class="rel-link-sub">Fraud typologies primer</span>
+    </a>
+    <a class="rel-link" href="./cross-functional.html">
+      <span class="rel-link-title">2 — The Fraud Function</span>
+      <span class="rel-link-sub">Governance &amp; cross-functional design</span>
+    </a>
+    <a class="rel-link" href="./product-risk.html">
+      <span class="rel-link-title">3 — Product Risk Profiles</span>
+      <span class="rel-link-sub">Deposits, loans, cards</span>
+    </a>
+    <a class="rel-link" href="./fraud-tech-stack.html">
+      <span class="rel-link-title">4 — Technology Stack</span>
+      <span class="rel-link-sub">Models, decisioning &amp; vendors</span>
+    </a>
+    <a class="rel-link" href="./building-defenses.html">
+      <span class="rel-link-title">5 — Building the Defense</span>
+      <span class="rel-link-sub">Zero to continuous improvement</span>
+    </a>
+  </div>
+  <div class="sidebar-block">
+    <h4>Standalone deep-dives</h4>
+    <a class="rel-link" href="./stopping-fraud.html">
+      <span class="rel-link-title">Stopping Fraud Before It Starts</span>
+      <span class="rel-link-sub">Upstream detection — companion piece</span>
+    </a>
+    <div class="rel-link current-article">
+      <span class="rel-link-title">The Deepfake Frontier ←</span>
+      <span class="rel-link-sub">You are here</span>
+    </div>
+  </div>
+</aside>
+</div>
+
+<footer>
+  <span>Fraud Risk Intelligence — Practitioner Knowledge Repository</span>
+  <a href="../index.html">← All articles</a>
+</footer>
+
+<script>
+const tocLinks = document.querySelectorAll('.toc-link');
+const sections = document.querySelectorAll('.section-rule[id]');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      tocLinks.forEach(l => l.classList.remove('active'));
+      const a = document.querySelector(`.toc-link[href="#${e.target.id}"]`);
+      if (a) a.classList.add('active');
+    }
+  });
+}, { rootMargin: '-15% 0px -75% 0px' });
+sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
